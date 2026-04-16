@@ -59,14 +59,23 @@ jobs:
           tauriScript: cargo tauri
           args: ${{ matrix.args }}
 
-      - name: Upload artifacts
+      - name: Upload macOS artifacts
+        if: runner.os == 'macOS'
         uses: actions/upload-artifact@v4
         with:
           name: Ripple-${{ matrix.target }}
           path: |
-            ripple-app/src-tauri/target/release/bundle/dmg/*
-            ripple-app/src-tauri/target/release/bundle/msi/*
-            ripple-app/src-tauri/target/release/bundle/nsis/*
+            ripple-app/src-tauri/target/${{ matrix.target }}/release/bundle/dmg/*
+            ripple-app/src-tauri/target/${{ matrix.target }}/release/bundle/macos/*
+
+      - name: Upload Windows artifacts
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ripple-${{ matrix.target }}
+          path: |
+            ripple-app/src-tauri/target/release/bundle/msi/*.msi
+            ripple-app/src-tauri/target/release/bundle/nsis/*.exe
 
   release:
     needs: build
