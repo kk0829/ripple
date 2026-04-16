@@ -50,6 +50,9 @@ jobs:
         run: npm run build
         working-directory: ripple-app
 
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli
+
       - name: Build Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
